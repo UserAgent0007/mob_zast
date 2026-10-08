@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<views:SessionPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:controls="clr-namespace:CurrencyConverter.Controls"
+                   xmlns:views="clr-namespace:CurrencyConverter.Views"
+                   xmlns:vm="clr-namespace:CurrencyConverter.ViewModels"
+                   x:Class="CurrencyConverter.Views.HistoryPage"
+                   x:DataType="vm:HistoryViewModel"
+                   Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="Auto,*" Padding="16,12,16,8">
+        <VerticalStackLayout Spacing="8">
+            <controls:ScreenHeader Kicker="Архів" Title="Історія" Subtitle="{Binding Subtitle}" />
+            <Button Text="Очистити історію"
+                    Style="{StaticResource DangerButton}"
+                    Command="{Binding ClearCommand}"
+                    IsVisible="{Binding HasItems}" />
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Items}" SelectionMode="None" IsVisible="{Binding HasItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:HistoryRow">
+                        <Border Style="{StaticResource Card}" Padding="0" Margin="0,0,0,10">
+                            <Grid ColumnDefinitions="4,*,Auto">
+                                <BoxView Color="{StaticResource Mint}" WidthRequest="4" />
+                                <VerticalStackLayout Grid.Column="1" Padding="12,12" Spacing="4">
+                                    <VerticalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.RestoreCommand, Source={RelativeSource AncestorType={x:Type views:HistoryPage}}}"
+                                            CommandParameter="{Binding}" />
+                                    </VerticalStackLayout.GestureRecognizers>
+                                    <Label Text="{Binding TimeText}" TextColor="{StaticResource Dim}" FontSize="12" />
+                                    <Label Text="{Binding PairText}" FontSize="15" FontAttributes="Bold" />
+                                    <Label Text="{Binding ResultText}" TextColor="{StaticResource Mint}" FontAttributes="Bold" />
+                                    <Label Text="{Binding RateText}" TextColor="{StaticResource Muted}" FontSize="12" />
+                                </VerticalStackLayout>
+                                <Button Grid.Column="2"
+                                        Text="✕"
+                                        TextColor="{StaticResource Muted}"
+                                        BackgroundColor="Transparent"
+                                        WidthRequest="44"
+                                        FontSize="16"
+                                        VerticalOptions="Center"
+                                        Margin="0,0,6,0"
+                                        Command="{Binding BindingContext.RemoveCommand, Source={RelativeSource AncestorType={x:Type views:HistoryPage}}}"
+                                        CommandParameter="{Binding Id}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <VerticalStackLayout IsVisible="{Binding ShowEmpty}"
+                                 Spacing="8"
+                                 Padding="28"
+                                 VerticalOptions="Center">
+                <Label Text="Історія ще порожня" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                <Label Text="Зробіть конвертацію й натисніть «Зберегти в історію»."
+                       TextColor="{StaticResource Muted}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</views:SessionPage>

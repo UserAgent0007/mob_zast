@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<views:SessionPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:views="clr-namespace:CurrencyConverter.Views"
+                   xmlns:vm="clr-namespace:CurrencyConverter.ViewModels"
+                   x:Class="CurrencyConverter.Views.RateDetailsPage"
+                   x:DataType="vm:RateDetailsViewModel"
+                   Title="Деталі курсу"
+                   Shell.NavBarIsVisible="True"
+                   Shell.BackgroundColor="{StaticResource Bg}"
+                   Shell.ForegroundColor="{StaticResource Text}"
+                   Shell.TitleColor="{StaticResource Text}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16,12,16,28" Spacing="12">
+            <Border BackgroundColor="{StaticResource MintDeep}"
+                    Stroke="{StaticResource Line}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="20">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding PairText}" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="{Binding RateText}" TextColor="{StaticResource Mint}" FontSize="40" />
+                    <Label Text="{Binding Caption}" TextColor="{StaticResource Muted}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Обернений курс" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="{Binding InverseText}" TextColor="{StaticResource Mint}" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Швидкі суми" FontSize="16" FontAttributes="Bold" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding SampleLines}" Spacing="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SampleLine">
+                                <Grid ColumnDefinitions="*,*" Padding="0,8">
+                                    <Label Text="{Binding FromText}" TextColor="{StaticResource Muted}" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding ToText}"
+                                           HorizontalTextAlignment="End"
+                                           FontAttributes="Bold" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Відкрити в конвертері"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding OpenConverterCommand}" />
+            <Button Text="{Binding FavoriteLabel}"
+                    Style="{StaticResource GhostButton}"
+                    Command="{Binding ToggleFavoriteCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</views:SessionPage>

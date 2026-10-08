@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<views:SessionPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:controls="clr-namespace:CurrencyConverter.Controls"
+                   xmlns:views="clr-namespace:CurrencyConverter.Views"
+                   xmlns:vm="clr-namespace:CurrencyConverter.ViewModels"
+                   x:Class="CurrencyConverter.Views.CurrencyPickerPage"
+                   x:DataType="vm:CurrencyPickerViewModel"
+                   Title="Обрати валюту"
+                   Shell.NavBarIsVisible="True"
+                   Shell.BackgroundColor="{StaticResource Bg}"
+                   Shell.ForegroundColor="{StaticResource Text}"
+                   Shell.TitleColor="{StaticResource Text}">
+    <Grid RowDefinitions="Auto,*" Padding="16,12,16,8">
+        <Border Style="{StaticResource Card}" Padding="12,0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                <Label Text="⌕" TextColor="{StaticResource Muted}" FontSize="18" VerticalOptions="Center" />
+                <Entry Grid.Column="1" Text="{Binding Query, Mode=TwoWay}" Placeholder="Код або назва валюти" FontSize="16" />
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0,8,0,0">
+            <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CurrencyRowItem">
+                        <Grid ColumnDefinitions="Auto,*,44" ColumnSpacing="12" Padding="0,12">
+                            <Grid Grid.Column="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.ChooseCommand, Source={RelativeSource AncestorType={x:Type views:CurrencyPickerPage}}}"
+                                        CommandParameter="{Binding Code}" />
+                                </Grid.GestureRecognizers>
+                                <controls:CurrencyMark Code="{Binding Code}" Size="36" VerticalOptions="Center" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Code}" FontSize="16" FontAttributes="Bold" />
+                                    <Label Text="{Binding Name}" TextColor="{StaticResource Muted}" FontSize="13" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Button Grid.Column="2"
+                                    Text="{Binding Star}"
+                                    TextColor="{Binding StarColor}"
+                                    BackgroundColor="Transparent"
+                                    FontSize="18"
+                                    Padding="0"
+                                    Command="{Binding BindingContext.ToggleFavoriteCommand, Source={RelativeSource AncestorType={x:Type views:CurrencyPickerPage}}}"
+                                    CommandParameter="{Binding Code}" />
+                            <BoxView Grid.ColumnSpan="3"
+                                     HeightRequest="1"
+                                     Color="{StaticResource Line}"
+                                     VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Валюту не знайдено"
+                   IsVisible="{Binding ShowEmpty}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="16" />
+        </Grid>
+    </Grid>
+</views:SessionPage>

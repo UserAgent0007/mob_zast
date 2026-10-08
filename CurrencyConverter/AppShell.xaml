@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CurrencyConverter.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:CurrencyConverter.Views"
+    FlyoutBehavior="Disabled"
+    Title="Курси валют"
+    Shell.BackgroundColor="{StaticResource Bg}"
+    Shell.ForegroundColor="{StaticResource Text}"
+    Shell.TitleColor="{StaticResource Text}"
+    Shell.NavBarHasShadow="False"
+    Shell.TabBarBackgroundColor="{StaticResource Surface}"
+    Shell.TabBarForegroundColor="{StaticResource Mint}"
+    Shell.TabBarTitleColor="{StaticResource Mint}"
+    Shell.TabBarUnselectedColor="{StaticResource Muted}">
+
+    <TabBar>
+        <ShellContent
+            Title="Конвертер"
+            Route="Converter"
+            Icon="tab_converter.png"
+            ContentTemplate="{DataTemplate views:ConverterPage}" />
+        <ShellContent
+            Title="Курси"
+            Route="Rates"
+            Icon="tab_rates.png"
+            ContentTemplate="{DataTemplate views:RatesPage}" />
+        <ShellContent
+            Title="Історія"
+            Route="History"
+            Icon="tab_history.png"
+            ContentTemplate="{DataTemplate views:HistoryPage}" />
+        <ShellContent
+            Title="Ще"
+            Route="Settings"
+            Icon="tab_settings.png"
+            ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </TabBar>
+
+</Shell>
